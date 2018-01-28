@@ -14,6 +14,10 @@ const configTemplate = `[general]
 # debug=5, info=4, warning=3, error=2, fatal=1, panic=0
 log_level={{ .General.LogLevel }}
 
+# The number of times passwords must be hashed. A higher number is safer as
+# an attack takes more time to perform.
+password_hash_iterations={{ .General.PasswordHashIterations }}
+
 
 # PostgreSQL settings.
 #
@@ -30,41 +34,42 @@ automigrate={{ .PostgreSQL.Automigrate }}
 #
 # Please note that Redis 2.6.0+ is required.
 [redis]
-# redis url (e.g. redis://user:password@hostname/0) (default: "redis://localhost:6379")
+# redis url (e.g. redis://user:password@hostname/0)
 url="{{ .Redis.URL }}"
-
-
-# MQTT backend configuration used for publishing (data) events
-# and scheduling downlink application payloads.
-[backend.mqtt]
-# MQTT server (e.g. scheme://host:port where scheme is tcp, ssl or ws)
-server="{{ .Backend.MQTT.Server }}"
-
-# Connect with the given username (optional)
-username="{{ .Backend.MQTT.Username }}"
-
-# Connect with the given password (optional)
-password="{{ .Backend.MQTT.Password }}"
-
-# CA certificate file (optional)
-#
-# Use this when setting up a secure connection (when server uses ssl://...)
-# but the certificate used by the server is not trusted by any CA certificate
-# on the server (e.g. when self generated).
-ca_cert="{{ .Backend.MQTT.CACert }}"
-
-# TLS certificate file (optional)
-tls_cert="{{ .Backend.MQTT.TLSCert }}"
-
-# TLS key file (optional)
-tls_key="{{ .Backend.MQTT.TLSKey }}"
 
 
 # Application-server settings.
 [application_server]
-# The number of times passwords must be hashed. A higher number is safer as
-# an attack takes more time to perform.
-password_hash_iterations={{ .ApplicationServer.PasswordHashIterations }}
+# random uuid defining the id of the application-server installation (used by LoRa Server as routing-profile id)
+id="{{ .ApplicationServer.ID }}"
+
+
+  # MQTT integration configuration used for publishing (data) events
+  # and scheduling downlink application payloads.
+  # Next to this integration which is always available, the user is able to
+  # configure additional per-application integrations.
+  [application_server.integration.mqtt]
+  # MQTT server (e.g. scheme://host:port where scheme is tcp, ssl or ws)
+  server="{{ .ApplicationServer.Integration.MQTT.Server }}"
+
+  # Connect with the given username (optional)
+  username="{{ .ApplicationServer.Integration.MQTT.Username }}"
+
+  # Connect with the given password (optional)
+  password="{{ .ApplicationServer.Integration.MQTT.Password }}"
+
+  # CA certificate file (optional)
+  #
+  # Use this when setting up a secure connection (when server uses ssl://...)
+  # but the certificate used by the server is not trusted by any CA certificate
+  # on the server (e.g. when self generated).
+  ca_cert="{{ .ApplicationServer.Integration.MQTT.CACert }}"
+
+  # TLS certificate file (optional)
+  tls_cert="{{ .ApplicationServer.Integration.MQTT.TLSCert }}"
+
+  # TLS key file (optional)
+  tls_key="{{ .ApplicationServer.Integration.MQTT.TLSKey }}"
 
 
   # Settings for the "internal api"
@@ -72,7 +77,7 @@ password_hash_iterations={{ .ApplicationServer.PasswordHashIterations }}
   # This is the API used by LoRa Server to communicate with LoRa App Server
   # and should not be exposed to the end-user.
   [application_server.internal_api]
-  # ip:port to bind the api server (default: "0.0.0.0:8001")
+  # ip:port to bind the api server
   bind="{{ .ApplicationServer.InternalAPI.Bind }}"
 
   # ca certificate used by the api server (optional)
@@ -85,17 +90,15 @@ password_hash_iterations={{ .ApplicationServer.PasswordHashIterations }}
   tls_key="{{ .ApplicationServer.InternalAPI.TLSKey }}"
 
   # public ip:port of the application-server api (used by LoRa Server to connect back to LoRa App Server)
-  public_server="{{ .ApplicationServer.InternalAPI.PublicServer }}"
+  public_host="{{ .ApplicationServer.InternalAPI.PublicHost }}"
 
-  # random uuid defining the id of the application-server installation (used by LoRa Server as routing-profile id)
-  public_id="{{ .ApplicationServer.InternalAPI.PublicID }}"
 
 
   # Settings for the "external api"
   #
   # This is the API and web-interface exposed to the end-user.
   [application_server.external_api]
-  # ip:port to bind the (user facing) http server to (web-interface and REST / gRPC api) (default: "0.0.0.0:8080")
+  # ip:port to bind the (user facing) http server to (web-interface and REST / gRPC api)
   bind="{{ .ApplicationServer.ExternalAPI.Bind }}"
 
   # http server TLS certificate

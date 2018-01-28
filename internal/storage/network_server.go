@@ -80,8 +80,8 @@ func CreateNetworkServer(db sqlx.Queryer, n *NetworkServer) error {
 
 	_, err = nsClient.CreateRoutingProfile(context.Background(), &ns.CreateRoutingProfileRequest{
 		RoutingProfile: &ns.RoutingProfile{
-			RoutingProfileID: config.C.ApplicationServer.InternalAPI.PublicID,
-			AsID:             config.C.ApplicationServer.InternalAPI.PublicServer,
+			RoutingProfileID: config.C.ApplicationServer.ID,
+			AsID:             config.C.ApplicationServer.InternalAPI.PublicHost,
 		},
 		CaCert:  n.RoutingProfileCACert,
 		TlsCert: n.RoutingProfileTLSCert,
@@ -162,8 +162,8 @@ func UpdateNetworkServer(db sqlx.Execer, n *NetworkServer) error {
 
 	_, err = nsClient.UpdateRoutingProfile(context.Background(), &ns.UpdateRoutingProfileRequest{
 		RoutingProfile: &ns.RoutingProfile{
-			RoutingProfileID: config.C.ApplicationServer.InternalAPI.PublicID,
-			AsID:             config.C.ApplicationServer.InternalAPI.PublicServer,
+			RoutingProfileID: config.C.ApplicationServer.ID,
+			AsID:             config.C.ApplicationServer.InternalAPI.PublicHost,
 		},
 		CaCert:  n.RoutingProfileCACert,
 		TlsCert: n.RoutingProfileTLSCert,
@@ -207,7 +207,7 @@ func DeleteNetworkServer(db sqlx.Ext, id int64) error {
 	}
 
 	_, err = nsClient.DeleteRoutingProfile(context.Background(), &ns.DeleteRoutingProfileRequest{
-		RoutingProfileID: config.C.ApplicationServer.InternalAPI.PublicID,
+		RoutingProfileID: config.C.ApplicationServer.ID,
 	})
 	if err != nil {
 		log.WithError(err).Error("network-server delete routing-profile api error")

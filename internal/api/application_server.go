@@ -150,7 +150,7 @@ func (a *ApplicationServerAPI) HandleUplinkData(ctx context.Context, req *as.Han
 		})
 	}
 
-	err = config.C.Backend.Handler.SendDataUp(pl)
+	err = config.C.ApplicationServer.Integration.Handler.SendDataUp(pl)
 	if err != nil {
 		errStr := fmt.Sprintf("send data up to handler error: %s", err)
 		log.Error(errStr)
@@ -191,7 +191,7 @@ func (a *ApplicationServerAPI) HandleDownlinkACK(ctx context.Context, req *as.Ha
 		"dev_eui": devEUI,
 	}).Info("downlink device-queue item acknowledged")
 
-	err = config.C.Backend.Handler.SendACKNotification(handler.ACKNotification{
+	err = config.C.ApplicationServer.Integration.Handler.SendACKNotification(handler.ACKNotification{
 		ApplicationID:   app.ID,
 		ApplicationName: app.Name,
 		DeviceName:      d.Name,
@@ -230,7 +230,7 @@ func (a *ApplicationServerAPI) HandleError(ctx context.Context, req *as.HandleEr
 		"dev_eui": devEUI,
 	}).Error(req.Error)
 
-	err = config.C.Backend.Handler.SendErrorNotification(handler.ErrorNotification{
+	err = config.C.ApplicationServer.Integration.Handler.SendErrorNotification(handler.ErrorNotification{
 		ApplicationID:   app.ID,
 		ApplicationName: app.Name,
 		DeviceName:      d.Name,

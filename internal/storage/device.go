@@ -119,7 +119,7 @@ func CreateDevice(db sqlx.Ext, d *Device) error {
 			DevEUI:           d.DevEUI[:],
 			DeviceProfileID:  d.DeviceProfileID,
 			ServiceProfileID: app.ServiceProfileID,
-			RoutingProfileID: config.C.ApplicationServer.InternalAPI.PublicID,
+			RoutingProfileID: config.C.ApplicationServer.ID,
 		},
 	})
 	if err != nil {
@@ -263,7 +263,7 @@ func UpdateDevice(db sqlx.Ext, d *Device) error {
 			DevEUI:           d.DevEUI[:],
 			DeviceProfileID:  d.DeviceProfileID,
 			ServiceProfileID: app.ServiceProfileID,
-			RoutingProfileID: config.C.ApplicationServer.InternalAPI.PublicID,
+			RoutingProfileID: config.C.ApplicationServer.ID,
 		},
 	})
 	if err != nil {

@@ -216,7 +216,7 @@ func flushDeviceQueueMapping(ctx *context) error {
 }
 
 func sendJoinNotification(ctx *context) error {
-	err := config.C.Backend.Handler.SendJoinNotification(handler.JoinNotification{
+	err := config.C.ApplicationServer.Integration.Handler.SendJoinNotification(handler.JoinNotification{
 		ApplicationID:   ctx.device.ApplicationID,
 		ApplicationName: ctx.application.Name,
 		DeviceName:      ctx.device.Name,

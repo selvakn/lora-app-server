@@ -33,7 +33,7 @@ func TestJoinServerAPI(t *testing.T) {
 		config.C.NetworkServer.Pool = test.NewNetworkServerPool(nsClient)
 
 		h := testhandler.NewTestHandler()
-		config.C.Backend.Handler = h
+		config.C.ApplicationServer.Integration.Handler = h
 
 		org := storage.Organization{
 			Name: "test-org",

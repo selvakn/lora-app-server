@@ -124,7 +124,7 @@ func TestDevice(t *testing.T) {
 					DevEUI:           []byte{1, 2, 3, 4, 5, 6, 7, 8},
 					DeviceProfileID:  dp.DeviceProfile.DeviceProfileID,
 					ServiceProfileID: sp.ServiceProfile.ServiceProfileID,
-					RoutingProfileID: config.C.ApplicationServer.InternalAPI.PublicID,
+					RoutingProfileID: config.C.ApplicationServer.ID,
 				},
 			})
 
@@ -134,7 +134,7 @@ func TestDevice(t *testing.T) {
 						DevEUI:           []byte{1, 2, 3, 4, 5, 6, 7, 8},
 						DeviceProfileID:  dp.DeviceProfile.DeviceProfileID,
 						ServiceProfileID: sp.ServiceProfile.ServiceProfileID,
-						RoutingProfileID: config.C.ApplicationServer.InternalAPI.PublicID,
+						RoutingProfileID: config.C.ApplicationServer.ID,
 					},
 				}
 
@@ -165,7 +165,7 @@ func TestDevice(t *testing.T) {
 							DevEUI:           []byte{1, 2, 3, 4, 5, 6, 7, 8},
 							DeviceProfileID:  dp2.DeviceProfile.DeviceProfileID,
 							ServiceProfileID: sp.ServiceProfile.ServiceProfileID,
-							RoutingProfileID: config.C.ApplicationServer.InternalAPI.PublicID,
+							RoutingProfileID: config.C.ApplicationServer.ID,
 						},
 					})
 

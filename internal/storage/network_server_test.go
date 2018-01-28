@@ -47,8 +47,8 @@ func TestNetworkServer(t *testing.T) {
 			So(nsClient.CreateRoutingProfileChan, ShouldHaveLength, 1)
 			So(<-nsClient.CreateRoutingProfileChan, ShouldResemble, ns.CreateRoutingProfileRequest{
 				RoutingProfile: &ns.RoutingProfile{
-					RoutingProfileID: config.C.ApplicationServer.InternalAPI.PublicID,
-					AsID:             config.C.ApplicationServer.InternalAPI.PublicServer,
+					RoutingProfileID: config.C.ApplicationServer.ID,
+					AsID:             config.C.ApplicationServer.InternalAPI.PublicHost,
 				},
 				CaCert:  "RPCACERT",
 				TlsCert: "RPTLSCERT",
@@ -124,8 +124,8 @@ func TestNetworkServer(t *testing.T) {
 				So(nsClient.UpdateRoutingProfileChan, ShouldHaveLength, 1)
 				So(<-nsClient.UpdateRoutingProfileChan, ShouldResemble, ns.UpdateRoutingProfileRequest{
 					RoutingProfile: &ns.RoutingProfile{
-						RoutingProfileID: config.C.ApplicationServer.InternalAPI.PublicID,
-						AsID:             config.C.ApplicationServer.InternalAPI.PublicServer,
+						RoutingProfileID: config.C.ApplicationServer.ID,
+						AsID:             config.C.ApplicationServer.InternalAPI.PublicHost,
 					},
 					CaCert:  "RPCACERT2",
 					TlsCert: "RPTLSCERT2",
@@ -146,7 +146,7 @@ func TestNetworkServer(t *testing.T) {
 				So(DeleteNetworkServer(db, n.ID), ShouldBeNil)
 				So(nsClient.DeleteRoutingProfileChan, ShouldHaveLength, 1)
 				So(<-nsClient.DeleteRoutingProfileChan, ShouldResemble, ns.DeleteRoutingProfileRequest{
-					RoutingProfileID: config.C.ApplicationServer.InternalAPI.PublicID,
+					RoutingProfileID: config.C.ApplicationServer.ID,
 				})
 
 				_, err := GetNetworkServer(db, n.ID)

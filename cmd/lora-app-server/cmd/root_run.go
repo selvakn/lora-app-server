@@ -123,17 +123,17 @@ func setRedisPool() error {
 
 func setHandler() error {
 	h, err := mqtthandler.NewHandler(
-		config.C.Backend.MQTT.Server,
-		config.C.Backend.MQTT.Username,
-		config.C.Backend.MQTT.Password,
-		config.C.Backend.MQTT.CACert,
-		config.C.Backend.MQTT.TLSCert,
-		config.C.Backend.MQTT.TLSKey,
+		config.C.ApplicationServer.Integration.MQTT.Server,
+		config.C.ApplicationServer.Integration.MQTT.Username,
+		config.C.ApplicationServer.Integration.MQTT.Password,
+		config.C.ApplicationServer.Integration.MQTT.CACert,
+		config.C.ApplicationServer.Integration.MQTT.TLSCert,
+		config.C.ApplicationServer.Integration.MQTT.TLSKey,
 	)
 	if err != nil {
 		return errors.Wrap(err, "setup mqtt handler error")
 	}
-	config.C.Backend.Handler = multihandler.NewHandler(h)
+	config.C.ApplicationServer.Integration.Handler = multihandler.NewHandler(h)
 	return nil
 }
 
@@ -184,7 +184,7 @@ func setJWTSecret() error {
 }
 
 func setHashIterations() error {
-	storage.HashIterations = config.C.ApplicationServer.PasswordHashIterations
+	storage.HashIterations = config.C.General.PasswordHashIterations
 	return nil
 }
 

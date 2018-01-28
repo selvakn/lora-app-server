@@ -20,7 +20,7 @@ import (
 // HandleDataDownPayloads handles received downlink payloads to be emitted to the
 // devices.
 func HandleDataDownPayloads() {
-	for pl := range config.C.Backend.Handler.DataDownChan() {
+	for pl := range config.C.ApplicationServer.Integration.Handler.DataDownChan() {
 		go func(pl handler.DataDownPayload) {
 			if err := handleDataDownPayload(pl); err != nil {
 				log.WithFields(log.Fields{

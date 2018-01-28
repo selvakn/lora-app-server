@@ -100,7 +100,7 @@ func TestApplicationServerAPI(t *testing.T) {
 		So(storage.CreateGateway(config.C.PostgreSQL.DB, &gw), ShouldBeNil)
 
 		h := testhandler.NewTestHandler()
-		config.C.Backend.Handler = h
+		config.C.ApplicationServer.Integration.Handler = h
 
 		ctx := context.Background()
 		api := NewApplicationServerAPI()

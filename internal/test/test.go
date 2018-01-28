@@ -26,8 +26,8 @@ type Config struct {
 }
 
 func init() {
-	config.C.ApplicationServer.InternalAPI.PublicID = "6d5db27e-4ce2-4b2b-b5d7-91f069397978"
-	config.C.ApplicationServer.InternalAPI.PublicServer = "localhost:8001"
+	config.C.ApplicationServer.ID = "6d5db27e-4ce2-4b2b-b5d7-91f069397978"
+	config.C.ApplicationServer.InternalAPI.PublicHost = "localhost:8001"
 }
 
 // GetConfig returns the test configuration.

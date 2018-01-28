@@ -13,7 +13,8 @@ import (
 // Config defines the configuration structure.
 type Config struct {
 	General struct {
-		LogLevel int `mapstructure:"log_level"`
+		LogLevel               int `mapstructure:"log_level"`
+		PasswordHashIterations int `mapstructure:"password_hash_iterations"`
 	}
 
 	PostgreSQL struct {
@@ -27,29 +28,28 @@ type Config struct {
 		Pool *redis.Pool
 	}
 
-	Backend struct {
-		Handler handler.Handler
-
-		MQTT struct {
-			Server   string
-			Username string
-			Password string
-			CACert   string `mapstructure:"ca_cert"`
-			TLSCert  string `mapstructure:"tls_cert"`
-			TLSKey   string `mapstructure:"tls_key"`
-		} `mapstructure:"mqtt"`
-	}
-
 	ApplicationServer struct {
-		PasswordHashIterations int `mapstructure:"password_hash_iterations"`
+		ID string `mapstructure:"id"`
+
+		Integration struct {
+			Handler handler.Handler
+
+			MQTT struct {
+				Server   string
+				Username string
+				Password string
+				CACert   string `mapstructure:"ca_cert"`
+				TLSCert  string `mapstructure:"tls_cert"`
+				TLSKey   string `mapstructure:"tls_key"`
+			} `mapstructure:"mqtt"`
+		}
 
 		InternalAPI struct {
-			Bind         string
-			CACert       string `mapstructure:"ca_cert"`
-			TLSCert      string `mapstructure:"tls_cert"`
-			TLSKey       string `mapstructure:"tls_key"`
-			PublicServer string `mapstructure:"public_server"`
-			PublicID     string `mapstructure:"public_id"`
+			Bind       string
+			CACert     string `mapstructure:"ca_cert"`
+			TLSCert    string `mapstructure:"tls_cert"`
+			TLSKey     string `mapstructure:"tls_key"`
+			PublicHost string `mapstructure:"public_host"`
 		} `mapstructure:"internal_api"`
 
 		ExternalAPI struct {
