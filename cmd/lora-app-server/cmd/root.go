@@ -32,7 +32,7 @@ func init() {
 
 	// for backwards compatibility
 	rootCmd.PersistentFlags().String("postgres-dsn", "postgres://localhost/loraserver_ns?sslmode=disable", "")
-	rootCmd.PersistentFlags().Bool("db-automigrate", false, "")
+	rootCmd.PersistentFlags().Bool("db-automigrate", true, "")
 	rootCmd.PersistentFlags().String("redis-url", "redis://localhost:6379", "")
 	rootCmd.PersistentFlags().String("mqtt-server", "tcp://localhost:1883", "")
 	rootCmd.PersistentFlags().String("mqtt-username", "", "")

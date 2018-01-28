@@ -11,6 +11,8 @@ import (
 
 // when updating this template, don't forget to update config.md!
 const configTemplate = `[general]
+# Log level
+#
 # debug=5, info=4, warning=3, error=2, fatal=1, panic=0
 log_level={{ .General.LogLevel }}
 
@@ -23,10 +25,41 @@ password_hash_iterations={{ .General.PasswordHashIterations }}
 #
 # Please note that PostgreSQL 9.5+ is required.
 [postgresql]
-# postgresql dsn (e.g.: postgres://user:password@hostname/database?sslmode=disable)
+# PostgreSQL dsn (e.g.: postgres://user:password@hostname/database?sslmode=disable).
+#
+# Besides using an URL (e.g. 'postgres://user:password@hostname/database?sslmode=disable')
+# it is also possible to use the following format:
+# 'user=loraserver dbname=loraserver sslmode=disable'.
+#
+# The following connection parameters are supported:
+#
+# * dbname - The name of the database to connect to
+# * user - The user to sign in as
+# * password - The user's password
+# * host - The host to connect to. Values that start with / are for unix domain sockets. (default is localhost)
+# * port - The port to bind to. (default is 5432)
+# * sslmode - Whether or not to use SSL (default is require, this is not the default for libpq)
+# * fallback_application_name - An application_name to fall back to if one isn't provided.
+# * connect_timeout - Maximum wait for connection, in seconds. Zero or not specified means wait indefinitely.
+# * sslcert - Cert file location. The file must contain PEM encoded data.
+# * sslkey - Key file location. The file must contain PEM encoded data.
+# * sslrootcert - The location of the root certificate file. The file must contain PEM encoded data.
+#
+# Valid values for sslmode are:
+#
+# * disable - No SSL
+# * require - Always SSL (skip verification)
+# * verify-ca - Always SSL (verify that the certificate presented by the server was signed by a trusted CA)
+# * verify-full - Always SSL (verify that the certification presented by the server was signed by a trusted CA and the server host name matches the one in the certificate)
 dsn="{{ .PostgreSQL.DSN }}"
 
-# automatically apply database migrations
+# Automatically apply database migrations.
+#
+# It is possible to apply the database-migrations by hand
+# (see https://github.com/brocaar/lora-app-server/tree/master/migrations)
+# or let LoRa App Server migrate to the latest state automatically, by using
+# this setting. Make sure that you always make a backup when upgrading Lora
+# App Server and / or applying migrations.
 automigrate={{ .PostgreSQL.Automigrate }}
 
 
@@ -34,7 +67,10 @@ automigrate={{ .PostgreSQL.Automigrate }}
 #
 # Please note that Redis 2.6.0+ is required.
 [redis]
-# redis url (e.g. redis://user:password@hostname/0)
+# Redis url (e.g. redis://user:password@hostname/0)
+#
+# For more information about the Redis URL format, see:
+# https://www.iana.org/assignments/uri-schemes/prov/redis
 url="{{ .Redis.URL }}"
 
 
@@ -89,9 +125,14 @@ id="{{ .ApplicationServer.ID }}"
   # tls key used by the api server (optional)
   tls_key="{{ .ApplicationServer.InternalAPI.TLSKey }}"
 
-  # public ip:port of the application-server api (used by LoRa Server to connect back to LoRa App Server)
+  # Public ip:port of the application-server API.
+  #
+  # This is used by LoRa Server to connect to LoRa App Server. When running
+  # LoRa App Server on a different host than LoRa Server, make sure to set
+  # this to the host:ip on which LoRa Server can reach LoRa App Server.
+  # The port must be equal to the port configured by the 'bind' flag
+  # above.
   public_host="{{ .ApplicationServer.InternalAPI.PublicHost }}"
-
 
 
   # Settings for the "external api"

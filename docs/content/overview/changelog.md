@@ -8,6 +8,16 @@ menu:
 
 ## Changelog
 
+### 0.18.0
+
+**Features:**
+
+* LoRa App Server uses a new configuration file format.
+  See [configuration](https://docs.loraserver.io/lora-app-server/install/config/) for more information.
+
+When upgrading using the `.deb` package / using `apt` or `apt-get`, your
+configuration will be automatically migrated for you.
+
 ### 0.17.1
 
 **Bugfixes:**

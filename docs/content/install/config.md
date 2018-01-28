@@ -8,93 +8,255 @@ menu:
 
 ## Configuration
 
-To list all configuration options, start `lora-app-server` with the `--help`
-flag. This will display:
+The `lora-app-server` binary has the following command-line flags:
 
 ```text
-GLOBAL OPTIONS:
-   --postgres-dsn value             postgresql dsn (e.g.: postgres://user:password@hostname/database?sslmode=disable) (default: "postgres://localhost/loraserver?sslmode=disable") [$POSTGRES_DSN]
-   --db-automigrate                 automatically apply database migrations [$DB_AUTOMIGRATE]
-   --redis-url value                redis url (e.g. redis://user:password@hostname/0) (default: "redis://localhost:6379") [$REDIS_URL]
-   --mqtt-server value              mqtt server (e.g. scheme://host:port where scheme is tcp, ssl or ws) (default: "tcp://localhost:1883") [$MQTT_SERVER]
-   --mqtt-username value            mqtt server username (optional) [$MQTT_USERNAME]
-   --mqtt-password value            mqtt server password (optional) [$MQTT_PASSWORD]
-   --mqtt-ca-cert value             mqtt CA certificate file used by the gateway backend (optional) [$MQTT_CA_CERT]
-   --mqtt-tls-cert value            mqtt certificate file used by the gateway backend (optional) [$MQTT_TLS_CERT]
-   --mqtt-tls-key value             mqtt key file of certificate used by the gateway backend (optional) [$MQTT_TLS_KEY]
-   --as-public-server value         ip:port of the application-server api (used by LoRa Server to connect back to LoRa App Server) (default: "localhost:8001") [$AS_PUBLIC_SERVER]
-   --as-public-id value             random uuid defining the id of the application-server installation (used by LoRa Server as routing-profile id) (default: "6d5db27e-4ce2-4b2b-b5d7-91f069397978") [$AS_PUBLIC_ID]
-   --bind value                     ip:port to bind the api server (default: "0.0.0.0:8001") [$BIND]
-   --ca-cert value                  ca certificate used by the api server (optional) [$CA_CERT]
-   --tls-cert value                 tls certificate used by the api server (optional) [$TLS_CERT]
-   --tls-key value                  tls key used by the api server (optional) [$TLS_KEY]
-   --http-bind value                ip:port to bind the (user facing) http server to (web-interface and REST / gRPC api) (default: "0.0.0.0:8080") [$HTTP_BIND]
-   --http-tls-cert value            http server TLS certificate [$HTTP_TLS_CERT]
-   --http-tls-key value             http server TLS key [$HTTP_TLS_KEY]
-   --jwt-secret value               JWT secret used for api authentication / authorization [$JWT_SECRET]
-   --pw-hash-iterations value       the number of iterations used to generate the password hash (default: 100000) [$PW_HASH_ITERATIONS]
-   --log-level value                debug=5, info=4, warning=3, error=2, fatal=1, panic=0 (default: 4) [$LOG_LEVEL]
-   --disable-assign-existing-users  when set, existing users can't be re-assigned (to avoid exposure of all users to an organization admin) [$DISABLE_ASSIGN_EXISTING_USERS]
-   --gw-ping                        enable sending gateway pings [$GW_PING]
-   --gw-ping-interval value         the interval used for each gateway to send a ping (default: 24h0m0s) [$GW_PING_INTERVAL]
-   --gw-ping-frequency value        the frequency used for transmitting the gateway ping (in Hz) (default: 0) [$GW_PING_FREQUENCY]
-   --gw-ping-dr value               the data-rate to use for transmitting the gateway ping (default: 0) [$GW_PING_DR]
-   --js-bind value                  ip:port to bind the join-server api interface to (default: "0.0.0.0:8003") [$JS_BIND]
-   --js-ca-cert value               ca certificate used by the join-server api server (optional) [$JS_CA_CERT]
-   --js-tls-cert value              tls certificate used by the join-server api server (optional) [$JS_TLS_CERT]
-   --js-tls-key value               tls key used by the join-server api server (optional) [$JS_TLS_KEY]
-   --help, -h                       show help
-   --version, -v                    print the version
+LoRa App Server is an open-source application-server, part of the LoRa Server project
+        > documentation & support: https://docs.loraserver.io/lora-app-server
+        > source & copyright information: https://github.com/brocaar/lora-app-server
+
+Usage:
+  lora-app-server [flags]
+  lora-app-server [command]
+
+Available Commands:
+  configfile  Print the LoRa Application Server configuration file
+  help        Help about any command
+  version     Print the LoRa Gateway Bridge version
+
+Flags:
+  -c, --config string   path to configuration file (optional)
+  -h, --help            help for lora-app-server
+      --log-level int   debug=5, info=4, error=2, fatal=1, panic=0 (default 4)
+
+Use "lora-app-server [command] --help" for more information about a command.
 ```
 
-Both cli arguments and environment-variables can be used to pass configuration
-options.
+### Configuration file
 
-### PostgreSQL connection string
+By default `lora-app-server` will look in the following order for a
+configuration file at the following paths when `--config` is not set:
 
-Besides using an URL (e.g. `postgres://user:password@hostname/database?sslmode=disable`)
-it is also possible to use the following format:
-`user=loraserver dbname=loraserver sslmode=disable`.
+* `lora-app-server.toml` (current working directory)
+* `$HOME/.config/lora-app-server/lora-app-server.toml`
+* `/etc/lora-app-server/lora-app-server.toml`
 
-The following connection parameters are supported:
+To lead configuration from a different location, use the `--config` flag.
 
-* dbname - The name of the database to connect to
-* user - The user to sign in as
-* password - The user's password
-* host - The host to connect to. Values that start with / are for unix domain sockets. (default is localhost)
-* port - The port to bind to. (default is 5432)
-* sslmode - Whether or not to use SSL (default is require, this is not the default for libpq)
-* fallback_application_name - An application_name to fall back to if one isn't provided.
-* connect_timeout - Maximum wait for connection, in seconds. Zero or not specified means wait indefinitely.
-* sslcert - Cert file location. The file must contain PEM encoded data.
-* sslkey - Key file location. The file must contain PEM encoded data.
-* sslrootcert - The location of the root certificate file. The file must contain PEM encoded data.
+To generate a new configuration file `lora-app-server.toml`, execute the following command:
 
-Valid values for sslmode are:
+```bash
+lora-app-server configfile > lora-app-server.toml
+```
 
-* disable - No SSL
-* require - Always SSL (skip verification)
-* verify-ca - Always SSL (verify that the certificate presented by the server was signed by a trusted CA)
-* verify-full - Always SSL (verify that the certification presented by the server was signed by a trusted CA and the server host name matches the one in the certificate)
+Note that this configuration file will be pre-filled with the current configuration
+(either loaded from the paths mentioned above, or by using the `--config` flag).
+This makes it possible when new fields get added to upgrade your configuration file
+while preserving your old configuration. Example:
 
-### Redis connection string
+```bash
+lora-app-server configfile --config lora-app-server-old.toml > lora-app-server-new.toml
+```
 
-For more information about the Redis URL format, see:
-[https://www.iana.org/assignments/uri-schemes/prov/redis](https://www.iana.org/assignments/uri-schemes/prov/redis).
+Example configuration file:
 
-### Database migrations
+```toml
+[general]
+# Log level
+#
+# debug=5, info=4, warning=3, error=2, fatal=1, panic=0
+log_level=4
 
-It is possible to apply the database-migrations by hand
-(see [migrations](https://github.com/brocaar/lora-app-server/tree/master/migrations))
-or let LoRa App Server migrate to the latest state automatically, by using
-the `--db-automigrate` flag. Make sure that you always make a backup when
-upgrading Lora App Server and / or applying migrations.
+# The number of times passwords must be hashed. A higher number is safer as
+# an attack takes more time to perform.
+password_hash_iterations=100000
 
-### Securing the application-server API
 
-In order to protect the application-server API (listening on `--bind`) against
+# PostgreSQL settings.
+#
+# Please note that PostgreSQL 9.5+ is required.
+[postgresql]
+# PostgreSQL dsn (e.g.: postgres://user:password@hostname/database?sslmode=disable).
+#
+# Besides using an URL (e.g. 'postgres://user:password@hostname/database?sslmode=disable')
+# it is also possible to use the following format:
+# 'user=loraserver dbname=loraserver sslmode=disable'.
+#
+# The following connection parameters are supported:
+#
+# * dbname - The name of the database to connect to
+# * user - The user to sign in as
+# * password - The user's password
+# * host - The host to connect to. Values that start with / are for unix domain sockets. (default is localhost)
+# * port - The port to bind to. (default is 5432)
+# * sslmode - Whether or not to use SSL (default is require, this is not the default for libpq)
+# * fallback_application_name - An application_name to fall back to if one isn't provided.
+# * connect_timeout - Maximum wait for connection, in seconds. Zero or not specified means wait indefinitely.
+# * sslcert - Cert file location. The file must contain PEM encoded data.
+# * sslkey - Key file location. The file must contain PEM encoded data.
+# * sslrootcert - The location of the root certificate file. The file must contain PEM encoded data.
+#
+# Valid values for sslmode are:
+#
+# * disable - No SSL
+# * require - Always SSL (skip verification)
+# * verify-ca - Always SSL (verify that the certificate presented by the server was signed by a trusted CA)
+# * verify-full - Always SSL (verify that the certification presented by the server was signed by a trusted CA and the server host name matches the one in the certificate)
+dsn="postgres://localhost/loraserver_ns?sslmode=disable"
+
+# Automatically apply database migrations.
+#
+# It is possible to apply the database-migrations by hand
+# (see https://github.com/brocaar/lora-app-server/tree/master/migrations)
+# or let LoRa App Server migrate to the latest state automatically, by using
+# this setting. Make sure that you always make a backup when upgrading Lora
+# App Server and / or applying migrations.
+automigrate=true
+
+
+# Redis settings
+#
+# Please note that Redis 2.6.0+ is required.
+[redis]
+# Redis url (e.g. redis://user:password@hostname/0)
+#
+# For more information about the Redis URL format, see:
+# https://www.iana.org/assignments/uri-schemes/prov/redis
+url="redis://localhost:6379"
+
+
+# Application-server settings.
+[application_server]
+# random uuid defining the id of the application-server installation (used by LoRa Server as routing-profile id)
+id="6d5db27e-4ce2-4b2b-b5d7-91f069397978"
+
+
+  # MQTT integration configuration used for publishing (data) events
+  # and scheduling downlink application payloads.
+  # Next to this integration which is always available, the user is able to
+  # configure additional per-application integrations.
+  [application_server.integration.mqtt]
+  # MQTT server (e.g. scheme://host:port where scheme is tcp, ssl or ws)
+  server="tcp://localhost:1883"
+
+  # Connect with the given username (optional)
+  username=""
+
+  # Connect with the given password (optional)
+  password=""
+
+  # CA certificate file (optional)
+  #
+  # Use this when setting up a secure connection (when server uses ssl://...)
+  # but the certificate used by the server is not trusted by any CA certificate
+  # on the server (e.g. when self generated).
+  ca_cert=""
+
+  # TLS certificate file (optional)
+  tls_cert=""
+
+  # TLS key file (optional)
+  tls_key=""
+
+
+  # Settings for the "internal api"
+  #
+  # This is the API used by LoRa Server to communicate with LoRa App Server
+  # and should not be exposed to the end-user.
+  [application_server.internal_api]
+  # ip:port to bind the api server
+  bind="0.0.0.0:8001"
+
+  # ca certificate used by the api server (optional)
+  ca_cert=""
+
+  # tls certificate used by the api server (optional)
+  tls_cert=""
+
+  # tls key used by the api server (optional)
+  tls_key=""
+
+  # Public ip:port of the application-server API.
+  #
+  # This is used by LoRa Server to connect to LoRa App Server. When running
+  # LoRa App Server on a different host than LoRa Server, make sure to set
+  # this to the host:ip on which LoRa Server can reach LoRa App Server.
+  # The port must be equal to the port configured by the 'bind' flag
+  # above.
+  public_host="localhost:8001"
+
+
+  # Settings for the "external api"
+  #
+  # This is the API and web-interface exposed to the end-user.
+  [application_server.external_api]
+  # ip:port to bind the (user facing) http server to (web-interface and REST / gRPC api)
+  bind="0.0.0.0:8080"
+
+  # http server TLS certificate
+  tls_cert=""
+
+  # http server TLS key
+  tls_key=""
+
+  # JWT secret used for api authentication / authorization
+  # You could generate this by executing 'openssl rand -base64 32' for example
+  jwt_secret=""
+
+  # when set, existing users can't be re-assigned (to avoid exposure of all users to an organization admin)"
+  disable_assign_existing_users=false
+
+
+  # Gateway discovery configuration.
+  #
+  # When enabled, each gateway will periodically broadcast a discovery "ping"
+  # which other gateways in the network are able to receive and which is
+  # presented in the web-interface as a map.
+  [application_server.gateway_discovery]
+  # Enable the gateway discovery feature.
+  enabled=false
+
+  # the interval used for each gateway to send a ping
+  interval="24h0m0s"
+
+  # the frequency used for transmitting the gateway ping (in Hz)
+  frequency=868100000
+
+  # the data-rate to use for transmitting the gateway ping
+  dr=5
+
+
+# Join-server configuration.
+#
+# LoRa App Server implements a (subset) of the join-api specified by the
+# LoRaWAN Backend Interfaces specification. This API is used by LoRa Server
+# to handle join-requests.
+[join_server]
+# ip:port to bind the join-server api interface to
+bind="0.0.0.0:8003"
+
+# ca certificate used by the join-server api server
+ca_cert=""
+
+# tls certificate used by the join-server api server (optional)
+tls_cert=""
+
+# tls key used by the join-server api server (optional)
+tls_key=""
+
+
+# Network-server configuration.
+#
+# This configuration is only used to migrate from older LoRa App Server.
+[network_server]
+server="127.0.0.1:8000"
+```
+
+### Securing the application-server internal API
+
+In order to protect the application-server internal API (`[application_server.internal_api]`) against
 unauthorized access and to encrypt all communication, it is advised to use TLS
-certificates. Once the `--ca-cert`, `--tls-cert` and `--tls-key` are set, the
+certificates. Once the `ca_cert`, `tls_cert` and `tls_key` are set, the
 API will enforce client certificate validation on all incoming connections.
 This means that when configuring a network-server instance in LoRa App Server,
 you must provide the CA and TLS client certificate in order to let the
@@ -106,19 +268,20 @@ for a set of script to generate such certificates.
 
 ### Securing the join-server API
 
-In order to protect the join-server API (listening on `--js-bind`) against
+In order to protect the join-server API (`[join_server]`) against
 unauthorized access and to encrypt all communication, it is advised to use TLS
-certificates. Once the `--js-ca-cert`, `--js-tls-cert` and `--js-tls-key` are
+certificates. Once the `ca_cert`, `tls_cert` and `tls_key` are
 set, the API will enforce client certificate validation on all incoming connections.
 
 Please note that you also need to configure LoRa Server so that it uses a
 client certificate for its join-server API client. See
 [LoRa Server configuration](https://docs.loraserver.io/loraserver/install/config/).
 
-### Web-interface and client API
+### Web-interface and public API
 
-The web-interface must be secured by a TLS certificate, as this allows to
-run the gRPC and RESTful JSON api together on one port (`--http-tls-*` flags).
+The web-interface and public api (`[application_server.public_api]`) must be
+secured by a TLS certificate and key, as this allows to run the gRPC and RESTful
+JSON api together on one port.
 
 #### Self-signed certificate
 
@@ -138,16 +301,29 @@ instructions. When the `letsencrypt` cli tool has been installed, execute:
 letsencrypt certonly --standalone -d DOMAINNAME.HERE 
 ```
 
-### Gateway discovery
+### Warning: deprecation warning! update your configuration
 
-By configuring the `--gw-ping` / `GW_PING` settings LoRa App Server will
-emit periodical gateway pings to test the coverage of each gateway. Make sure
-that the `--gw-ping-frequency` / `GW_PING_FREQUENCY` setting is set to a
-frequency that is part of the channel-plan of the other receiving gateways.
+When you see this warning, you need to update your configuration!
+Before LoRa App Server 0.18.0 environment variables were used for setting
+configuration flags. Since LoRa App Server 0.18.0 the configuration format
+has changed.
 
-### Application Server public host
+The `.deb` installer will automatically migrate your configuration. For non
+`.deb` installations, you can migrate your configuration in the following way:
 
-When running LoRa App Server on a different host than LoRa Server, make sure
-to set the `--as-public-server` to the correct `hostname:port` on which LoRa
-Server can reach LoRa App Server. The port must be equal to the port as
-configured by the `--bind` / `BIND` configuration.
+```bash
+# Export your environment variables, in this case from a file, but anything
+# that sets your environment variables will work.
+set -a
+source /etc/default/lora-app-server
+
+# Create the configuration directory.
+mkdir /etc/lora-app-server
+
+# Generate new configuration file, pre-filled with the configuration set
+# through the environment variables.
+lora-app-server configfile > /etc/lora-app-server/lora-app-server.toml
+
+# "Remove" the old configuration (in you were using a file).
+mv /etc/default/lora-app-server /etc/default/lora-app-server.old
+```
