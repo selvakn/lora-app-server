@@ -3,7 +3,7 @@
 
 
 [[constraint]]
-  branch = "master"
+  branch = "improve_frame_logs"
   name = "github.com/brocaar/loraserver"
 
 [[constraint]]
@@ -102,3 +102,7 @@
   non-go = true
   go-tests = true
   unused-packages = true
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/tmc/grpc-websocket-proxy"
