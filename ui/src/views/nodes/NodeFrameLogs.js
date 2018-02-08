@@ -108,7 +108,7 @@ class NodeFrameLogs extends Component {
       }
     });
 
-    fileDownload(JSON.stringify(dl), `device-${this.props.match.params.devEUI}.json`);
+    fileDownload(JSON.stringify(dl, null, 4), `device-${this.props.match.params.devEUI}.json`);
   }
 
   onConnected() {

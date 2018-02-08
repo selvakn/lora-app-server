@@ -14,7 +14,11 @@ menu:
 
 * LoRa App Server uses a new configuration file format.
   See [configuration](https://docs.loraserver.io/lora-app-server/install/config/) for more information.
-
+* Frame-logs for device are now streaming and can be downloaded as JSON file.
+  * **Note:** the `/api/devices/{devEUI}/frames` endpoint has changed!
+  * You need LoRa Server 0.24+ in order to use this feature.
+* Added streaming frame-logs for gateways (which also can be downloaded as JSON file).
+  * You need LoRa Server 0.24+ in order to use this feature.
 * Support MQTT client certificate authentication ([#201](https://github.com/brocaar/lora-app-server/pull/201)).
 
 **Upgrade notes:**

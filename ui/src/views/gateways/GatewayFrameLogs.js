@@ -107,7 +107,7 @@ class GatewayFrameLogs extends Component {
       }
     });
 
-    fileDownload(JSON.stringify(dl), `gateway-${this.props.match.params.mac}.json`);
+    fileDownload(JSON.stringify(dl, null, 4), `gateway-${this.props.match.params.mac}.json`);
   }
 
   onConnected() {
