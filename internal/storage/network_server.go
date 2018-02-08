@@ -81,7 +81,7 @@ func CreateNetworkServer(db sqlx.Queryer, n *NetworkServer) error {
 	_, err = nsClient.CreateRoutingProfile(context.Background(), &ns.CreateRoutingProfileRequest{
 		RoutingProfile: &ns.RoutingProfile{
 			RoutingProfileID: config.C.ApplicationServer.ID,
-			AsID:             config.C.ApplicationServer.InternalAPI.PublicHost,
+			AsID:             config.C.ApplicationServer.API.PublicHost,
 		},
 		CaCert:  n.RoutingProfileCACert,
 		TlsCert: n.RoutingProfileTLSCert,
@@ -163,7 +163,7 @@ func UpdateNetworkServer(db sqlx.Execer, n *NetworkServer) error {
 	_, err = nsClient.UpdateRoutingProfile(context.Background(), &ns.UpdateRoutingProfileRequest{
 		RoutingProfile: &ns.RoutingProfile{
 			RoutingProfileID: config.C.ApplicationServer.ID,
-			AsID:             config.C.ApplicationServer.InternalAPI.PublicHost,
+			AsID:             config.C.ApplicationServer.API.PublicHost,
 		},
 		CaCert:  n.RoutingProfileCACert,
 		TlsCert: n.RoutingProfileTLSCert,

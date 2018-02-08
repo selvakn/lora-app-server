@@ -127,7 +127,11 @@ url="redis://localhost:6379"
 
 # Application-server settings.
 [application_server]
-# random uuid defining the id of the application-server installation (used by LoRa Server as routing-profile id)
+# Application-server identifier.
+#
+# Random UUID defining the id of the application-server installation (used by
+# LoRa Server as routing-profile id).
+# For now it is recommended to not change this id.
 id="6d5db27e-4ce2-4b2b-b5d7-91f069397978"
 
 
@@ -163,7 +167,7 @@ id="6d5db27e-4ce2-4b2b-b5d7-91f069397978"
   #
   # This is the API used by LoRa Server to communicate with LoRa App Server
   # and should not be exposed to the end-user.
-  [application_server.internal_api]
+  [application_server.api]
   # ip:port to bind the api server
   bind="0.0.0.0:8001"
 

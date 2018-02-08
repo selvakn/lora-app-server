@@ -44,13 +44,13 @@ type Config struct {
 			} `mapstructure:"mqtt"`
 		}
 
-		InternalAPI struct {
+		API struct {
 			Bind       string
 			CACert     string `mapstructure:"ca_cert"`
 			TLSCert    string `mapstructure:"tls_cert"`
 			TLSKey     string `mapstructure:"tls_key"`
 			PublicHost string `mapstructure:"public_host"`
-		} `mapstructure:"internal_api"`
+		} `mapstructure:"api"`
 
 		ExternalAPI struct {
 			Bind                       string

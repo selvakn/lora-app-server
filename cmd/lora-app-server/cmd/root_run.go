@@ -200,13 +200,13 @@ func handleDataDownPayloads() error {
 
 func startApplicationServerAPI() error {
 	log.WithFields(log.Fields{
-		"bind":     config.C.ApplicationServer.InternalAPI.Bind,
-		"ca-cert":  config.C.ApplicationServer.InternalAPI.CACert,
-		"tls-cert": config.C.ApplicationServer.InternalAPI.TLSCert,
-		"tls-key":  config.C.ApplicationServer.InternalAPI.TLSKey,
+		"bind":     config.C.ApplicationServer.API.Bind,
+		"ca-cert":  config.C.ApplicationServer.API.CACert,
+		"tls-cert": config.C.ApplicationServer.API.TLSCert,
+		"tls-key":  config.C.ApplicationServer.API.TLSKey,
 	}).Info("starting application-server api")
 	apiServer := mustGetAPIServer()
-	ln, err := net.Listen("tcp", config.C.ApplicationServer.InternalAPI.Bind)
+	ln, err := net.Listen("tcp", config.C.ApplicationServer.API.Bind)
 	if err != nil {
 		log.Fatalf("start application-server api listener error: %s", err)
 	}
@@ -359,8 +359,8 @@ func gRPCLoggingServerOptions() []grpc.ServerOption {
 
 func mustGetAPIServer() *grpc.Server {
 	opts := gRPCLoggingServerOptions()
-	if config.C.ApplicationServer.InternalAPI.CACert != "" && config.C.ApplicationServer.InternalAPI.TLSCert != "" && config.C.ApplicationServer.InternalAPI.TLSKey != "" {
-		creds := mustGetTransportCredentials(config.C.ApplicationServer.InternalAPI.TLSCert, config.C.ApplicationServer.InternalAPI.TLSKey, config.C.ApplicationServer.InternalAPI.CACert, true)
+	if config.C.ApplicationServer.API.CACert != "" && config.C.ApplicationServer.API.TLSCert != "" && config.C.ApplicationServer.API.TLSKey != "" {
+		creds := mustGetTransportCredentials(config.C.ApplicationServer.API.TLSCert, config.C.ApplicationServer.API.TLSKey, config.C.ApplicationServer.API.CACert, true)
 		opts = append(opts, grpc.Creds(creds))
 	}
 	gs := grpc.NewServer(opts...)

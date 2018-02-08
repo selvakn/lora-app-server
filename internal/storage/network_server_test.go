@@ -48,7 +48,7 @@ func TestNetworkServer(t *testing.T) {
 			So(<-nsClient.CreateRoutingProfileChan, ShouldResemble, ns.CreateRoutingProfileRequest{
 				RoutingProfile: &ns.RoutingProfile{
 					RoutingProfileID: config.C.ApplicationServer.ID,
-					AsID:             config.C.ApplicationServer.InternalAPI.PublicHost,
+					AsID:             config.C.ApplicationServer.API.PublicHost,
 				},
 				CaCert:  "RPCACERT",
 				TlsCert: "RPTLSCERT",
@@ -125,7 +125,7 @@ func TestNetworkServer(t *testing.T) {
 				So(<-nsClient.UpdateRoutingProfileChan, ShouldResemble, ns.UpdateRoutingProfileRequest{
 					RoutingProfile: &ns.RoutingProfile{
 						RoutingProfileID: config.C.ApplicationServer.ID,
-						AsID:             config.C.ApplicationServer.InternalAPI.PublicHost,
+						AsID:             config.C.ApplicationServer.API.PublicHost,
 					},
 					CaCert:  "RPCACERT2",
 					TlsCert: "RPTLSCERT2",

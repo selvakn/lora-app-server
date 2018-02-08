@@ -76,7 +76,11 @@ url="{{ .Redis.URL }}"
 
 # Application-server settings.
 [application_server]
-# random uuid defining the id of the application-server installation (used by LoRa Server as routing-profile id)
+# Application-server identifier.
+#
+# Random UUID defining the id of the application-server installation (used by
+# LoRa Server as routing-profile id).
+# For now it is recommended to not change this id.
 id="{{ .ApplicationServer.ID }}"
 
 
@@ -112,18 +116,18 @@ id="{{ .ApplicationServer.ID }}"
   #
   # This is the API used by LoRa Server to communicate with LoRa App Server
   # and should not be exposed to the end-user.
-  [application_server.internal_api]
+  [application_server.api]
   # ip:port to bind the api server
-  bind="{{ .ApplicationServer.InternalAPI.Bind }}"
+  bind="{{ .ApplicationServer.API.Bind }}"
 
   # ca certificate used by the api server (optional)
-  ca_cert="{{ .ApplicationServer.InternalAPI.CACert }}"
+  ca_cert="{{ .ApplicationServer.API.CACert }}"
 
   # tls certificate used by the api server (optional)
-  tls_cert="{{ .ApplicationServer.InternalAPI.TLSCert }}"
+  tls_cert="{{ .ApplicationServer.API.TLSCert }}"
 
   # tls key used by the api server (optional)
-  tls_key="{{ .ApplicationServer.InternalAPI.TLSKey }}"
+  tls_key="{{ .ApplicationServer.API.TLSKey }}"
 
   # Public ip:port of the application-server API.
   #
@@ -132,7 +136,7 @@ id="{{ .ApplicationServer.ID }}"
   # this to the host:ip on which LoRa Server can reach LoRa App Server.
   # The port must be equal to the port configured by the 'bind' flag
   # above.
-  public_host="{{ .ApplicationServer.InternalAPI.PublicHost }}"
+  public_host="{{ .ApplicationServer.API.PublicHost }}"
 
 
   # Settings for the "external api"
