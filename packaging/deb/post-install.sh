@@ -66,7 +66,7 @@ fi
 
 # create example configuration file
 if [[ ! -f /etc/$NAME/$NAME.toml ]]; then
-	lora-app-server configfile > /etc/$NAME/$NAME.toml
+	HTTP_TLS_CERT=/etc/$NAME/certs/http.pem HTTP_TLS_KEY=/etc/$NAME/certs/http-key.pem lora-app-server configfile > /etc/$NAME/$NAME.toml
 	chown $DAEMON_USER:$DAEMON_GROUP /etc/$NAME/$NAME.toml
 	chmod 640 /etc/$NAME/$NAME.toml
 	echo -e "\n\n\n"

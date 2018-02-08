@@ -41,7 +41,7 @@ configuration file at the following paths when `--config` is not set:
 * `$HOME/.config/lora-app-server/lora-app-server.toml`
 * `/etc/lora-app-server/lora-app-server.toml`
 
-To lead configuration from a different location, use the `--config` flag.
+To load configuration from a different location, use the `--config` flag.
 
 To generate a new configuration file `lora-app-server.toml`, execute the following command:
 
