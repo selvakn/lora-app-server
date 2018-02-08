@@ -15,6 +15,8 @@ menu:
 * LoRa App Server uses a new configuration file format.
   See [configuration](https://docs.loraserver.io/lora-app-server/install/config/) for more information.
 
+* Support MQTT client certificate authentication ([#201](https://github.com/brocaar/lora-app-server/pull/201)).
+
 
 **Upgrade notes:**
 
