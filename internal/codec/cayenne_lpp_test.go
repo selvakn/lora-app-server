@@ -38,7 +38,7 @@ func TestCayenneLPPDecode(t *testing.T) {
 				Name:  "2 analog input",
 				Bytes: []byte{3, 2, 0, 10, 5, 2, 3, 232},
 				Struct: CayenneLPP{
-					AnalogInput: map[byte]float64{
+					AnalogInput: map[byte]float32{
 						3: 0.1,
 						5: 10,
 					},
@@ -48,7 +48,7 @@ func TestCayenneLPPDecode(t *testing.T) {
 				Name:  "2 analog output",
 				Bytes: []byte{3, 3, 0, 10, 5, 3, 3, 232},
 				Struct: CayenneLPP{
-					AnalogOutput: map[byte]float64{
+					AnalogOutput: map[byte]float32{
 						3: 0.1,
 						5: 10,
 					},
@@ -78,7 +78,7 @@ func TestCayenneLPPDecode(t *testing.T) {
 				Name:  "2 temperature sensors",
 				Bytes: []byte{3, 103, 1, 16, 5, 103, 0, 255},
 				Struct: CayenneLPP{
-					TemperatureSensor: map[byte]float64{
+					TemperatureSensor: map[byte]float32{
 						3: 27.2,
 						5: 25.5,
 					},
@@ -88,7 +88,7 @@ func TestCayenneLPPDecode(t *testing.T) {
 				Name:  "2 humidity sensors",
 				Bytes: []byte{3, 104, 41, 5, 104, 150},
 				Struct: CayenneLPP{
-					HumiditySensor: map[byte]float64{
+					HumiditySensor: map[byte]float32{
 						3: 20.5,
 						5: 75,
 					},
@@ -108,8 +108,8 @@ func TestCayenneLPPDecode(t *testing.T) {
 				Name:  "2 barometers",
 				Bytes: []byte{3, 115, 4, 31, 5, 115, 9, 196},
 				Struct: CayenneLPP{
-					Barometer: map[byte]float64{
-						3: 105.5,
+					Barometer: map[byte]uint8{
+						3: 105,
 						5: 250,
 					},
 				},

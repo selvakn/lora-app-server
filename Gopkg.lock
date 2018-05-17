@@ -232,6 +232,12 @@
   version = "v1.2.0"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/selvakn/go-cayenne-lib"
+  packages = ["cayennelpp"]
+  revision = "79988243629c2100ad123182131763507ea98331"
+
+[[projects]]
   name = "github.com/sirupsen/logrus"
   packages = ["."]
   revision = "d682213848ed68c0a260ca37d6dd5ace8423f5ba"
@@ -419,6 +425,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "0064dd904aff3d8901ea4fdb4334c42f5d6037085b5989bfa31f2390502aa384"
+  inputs-digest = "4448c5948a806b7dfc519e2b12feee9020156c001fab2afb9a0218f467134fc4"
   solver-name = "gps-cdcl"
   solver-version = 1

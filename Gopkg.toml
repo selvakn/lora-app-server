@@ -107,6 +107,10 @@
   branch = "master"
   name = "github.com/mmcloughlin/geohash"
 
+[[constraint]]
+  branch = "master"
+  name = "github.com/selvakn/go-cayenne-lib"
+  
 [prune]
   non-go = true
   go-tests = true
